@@ -235,6 +235,7 @@ export function TrendingDetail() {
               <div
                 key={index}
                 className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                onClick={() => window.open(`${article.source}`, '_blank')}
               >
                 <h4 className="mb-2">{article.title}</h4>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
