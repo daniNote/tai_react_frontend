@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
-import { ArrowLeft, TrendingUp, Share2, Bookmark, Sparkles } from 'lucide-react';
-import { useParams, useNavigate } from 'react-router-dom';
-import api from '../api/axiosConfig';
+import { useState, useEffect } from "react";
+import {
+  ArrowLeft,
+  TrendingUp,
+  Share2,
+  Bookmark,
+  Sparkles,
+} from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../api/axiosConfig";
 
 interface LLMResult {
   keyword: string;
@@ -33,12 +39,12 @@ export function TrendingDetail() {
       try {
         setLoading(true);
         const response = await api.get(`/trend/${id}`);
-        console.log('API Response:', response.data); // Add this line to debug
+        console.log("API Response:", response.data); // Add this line to debug
         setData(response.data);
         setError(null);
       } catch (err) {
-        console.error('트렌드 상세 정보를 불러오는 중 오류 발생:', err);
-        setError('트렌드 상세 정보를 불러오는 데 실패했습니다.');
+        console.error("트렌드 상세 정보를 불러오는 중 오류 발생:", err);
+        setError("트렌드 상세 정보를 불러오는 데 실패했습니다.");
       } finally {
         setLoading(false);
       }
@@ -55,15 +61,15 @@ export function TrendingDetail() {
 
   // 날짜 포맷 함수
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return '데이터 없음';
-    
+    if (!dateString) return "데이터 없음";
+
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
     return `${year}.${month}.${day} ${hours}:${minutes}`;
   };
 
@@ -82,7 +88,7 @@ export function TrendingDetail() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center text-red-500">
-          {error || '데이터를 불러올 수 없습니다.'}
+          {error || "데이터를 불러올 수 없습니다."}
         </div>
       </div>
     );
@@ -90,27 +96,28 @@ export function TrendingDetail() {
 
   // AI 요약 정보
   const aiSummary = {
-    summary: data.llmResult.content || 'AI 분석 내용이 없습니다.',
+    summary: data.llmResult.content || "AI 분석 내용이 없습니다.",
     sources: data.llmResult.refered?.length || 0,
-    keyPoints: data.llmResult.tags?.slice(0, 3) || []
+    keyPoints: data.llmResult.tags?.slice(0, 3) || [],
   };
 
   // 관련 기사 목록
-  const relatedArticles = data.llmResult.refered?.map((source, index) => ({
-    title: `관련 기사 ${index + 1}: ${data.llmResult.keyword} 관련 기사`,
-    source: source || '뉴스 출처',
-    time: '최근'
-  })) || [];
+  const relatedArticles =
+    data.llmResult.refered?.map((source, index) => ({
+      title: `관련 기사 ${index + 1}: ${data.llmResult.keyword} 관련 기사`,
+      source: source || "뉴스 출처",
+      time: "최근",
+    })) || [];
 
   // 트렌드 차트 데이터 (API에 따라 수정 필요)
   const chartData = [
-    { time: '00:00', value: 20 },
-    { time: '04:00', value: 35 },
-    { time: '08:00', value: 55 },
-    { time: '12:00', value: 80 },
-    { time: '16:00', value: 100 },
-    { time: '20:00', value: 75 },
-    { time: '24:00', value: 60 },
+    { time: "00:00", value: 20 },
+    { time: "04:00", value: 35 },
+    { time: "08:00", value: 55 },
+    { time: "12:00", value: 80 },
+    { time: "16:00", value: 100 },
+    { time: "20:00", value: 75 },
+    { time: "24:00", value: 60 },
   ];
 
   const maxValue = Math.max(...chartData.map((d) => d.value));
@@ -141,7 +148,7 @@ export function TrendingDetail() {
               </div>
               <h1 className="text-blue-600 mb-4">{data.llmResult.keyword}</h1>
             </div>
-            
+
             <div className="flex gap-2">
               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <Share2 size={20} className="text-gray-600" />
@@ -155,7 +162,7 @@ export function TrendingDetail() {
           <div className="flex gap-6 mb-6">
             <div className="flex-1 p-4 bg-gray-50 rounded-lg">
               <p className="text-gray-600 text-sm mb-1">검색량</p>
-              <p className="text-gray-900">{data.approx_traffic || 'N/A'}</p>
+              <p className="text-gray-900">{data.approx_traffic || "N/A"}</p>
             </div>
             <div className="flex-1 p-4 bg-gray-50 rounded-lg">
               <p className="text-gray-600 text-sm mb-1">데이터 시간</p>
@@ -166,32 +173,35 @@ export function TrendingDetail() {
           </div>
 
           {/* AI Summary Card */}
-        <div className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-8 mb-6">
-          
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-              <Sparkles size={20} className="text-white" />
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-8 mb-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                <Sparkles size={20} className="text-white" />
+              </div>
+              <div>
+                <h2 className="text-purple-900">AI 제공 레포트</h2>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 mb-4">
+              <div>
+                <h2 className="text-purple-900">AI 한줄 요약</h2>
+              </div>
+            </div>
+            <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 mb-4">
+              <p className="text-gray-700">
+                {data.llmResult.description || "상세 설명이 없습니다."}
+              </p>
             </div>
             <div>
-              <h2 className="text-purple-900">AI 제공 레포트</h2>
+              <h2 className="text-purple-900">기사 전체 요약</h2>
+            </div>
+            <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 mb-4">
+              <p className="text-gray-800 leading-relaxed">
+                {aiSummary.summary}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-3 mb-4">
-            <div>
-              <h2 className="text-purple-900">AI 한줄 요약</h2>
-            </div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 mb-4">
-            <p className="text-gray-700">{data.llmResult.description || '상세 설명이 없습니다.'}</p>
-          </div>
-          <div>
-            <h2 className="text-purple-900">기사 전체 요약</h2>
-          </div>
-          <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 mb-4">
-            <p className="text-gray-800 leading-relaxed">{aiSummary.summary}</p>
-          </div>
-        </div>
-        
+
           <div className="mb-6">
             <h3 className="mb-3">관련 태그</h3>
             <div className="flex gap-2 flex-wrap">
@@ -224,8 +234,8 @@ export function TrendingDetail() {
                 ))}
               </div>
             </div>
-          </div>
-        </div> */}
+          </div> */}
+        </div>
 
         {/* Related Articles */}
         <div className="bg-white border border-gray-200 rounded-xl p-8">
@@ -235,7 +245,7 @@ export function TrendingDetail() {
               <div
                 key={index}
                 className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={() => window.open(`${article.source}`, '_blank')}
+                onClick={() => window.open(`${article.source}`, "_blank")}
               >
                 <h4 className="mb-2">{article.title}</h4>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
