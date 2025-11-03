@@ -16,8 +16,8 @@ WORKDIR /app
 RUN npm install -g serve
 
 # Copy built assets and expose the service port
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/build ./build
 EXPOSE 30002
 
 # Serve the production build for the reverse proxy
-CMD ["serve", "-s", "dist", "-l", "30002", "--single"]
+CMD ["serve", "-s", "build", "-l", "30002", "--single"]
