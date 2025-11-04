@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { DatePicker } from './DatePicker';
 
 interface FilterBarProps {
   timeFilter: string;
@@ -31,60 +33,30 @@ export function FilterBar({
   onDayChange,
   onResetToNow,
 }: FilterBarProps) {
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 6 }, (_, i) => currentYear - 5 + i); // 현재년도-5 ~ 현재년도
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const daysInMonth = new Date(year, month, 0).getDate();
-  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const hours = Array.from({ length: 24 }, (_, i) => i);
+
+  const handleDateChange = (newYear: number, newMonth: number, newDay: number) => {
+    onYearChange(newYear);
+    onMonthChange(newMonth);
+    onDayChange(newDay);
+  };
   return (
     <div className="mb-8">
       {/* 모든 필터를 1줄에 배치 */}
       <div className="flex gap-2 sm:gap-3 flex-wrap items-stretch">
-        {/* Year */}
-        <div className="relative flex-1 min-w-[250px]">
-          <select
-            value={year}
-            onChange={(e) => onYearChange(parseInt(e.target.value, 10))}
-            className="w-full text-sm sm:text-base appearance-none px-4 pr-10 py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-gray-700 transition-colors"
-            aria-label="년도 선택"
-          >
-            {years.map((y) => (
-              <option key={y} value={y}>{y}년</option>
-            ))}
-          </select>
-          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-        </div>
-        {/* Month */}
-        <div className="relative flex-1 min-w-[100px]">
-          <select
-            value={month}
-            onChange={(e) => onMonthChange(parseInt(e.target.value, 10))}
-            className="w-full text-sm sm:text-base appearance-none px-4 pr-10 py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-gray-700 transition-colors"
-            aria-label="월 선택"
-          >
-            {months.map((m) => (
-              <option key={m} value={m}>{m}월</option>
-            ))}
-          </select>
-          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-        </div>
-        {/* Day */}
-        <div className="relative flex-1 min-w-[100px]">
-          <select
-            value={day}
-            onChange={(e) => onDayChange(parseInt(e.target.value, 10))}
-            className="w-full text-sm sm:text-base appearance-none px-4 pr-10 py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-gray-700 transition-colors"
-            aria-label="일 선택"
-          >
-            {days.map((d) => (
-              <option key={d} value={d}>{d}일</option>
-            ))}
-          </select>
-          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
+        {/* Date Picker */}
+        <div className="flex-[2] min-w-[200px]">
+          <DatePicker
+            year={year}
+            month={month}
+            day={day}
+            onDateChange={handleDateChange}
+            onOpenChange={setIsDatePickerOpen}
+          />
         </div>
         {/* Hour */}
-        <div className="relative flex-1 min-w-[100px]">
+        <div className="relative flex-shrink-0 w-[90px]">
           <select
             value={timeFilter}
             onChange={(e) => onTimeFilterChange(e.target.value)}
@@ -98,6 +70,7 @@ export function FilterBar({
           <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
         {/* Category */}
+        {!isDatePickerOpen && (
         <div className="relative flex-[1.5] min-w-[150px]">
           <select
             value={categoryFilter}
@@ -125,6 +98,7 @@ export function FilterBar({
           </select>
           <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
+        )}
         {/* Reset Button */}
         <button
           type="button"
