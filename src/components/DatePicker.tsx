@@ -79,38 +79,38 @@ export function DatePicker({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-sm sm:text-base px-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-gray-700 transition-colors flex items-center justify-between"
+        className="w-full text-sm sm:text-base px-4 py-3 bg-card border border-border rounded-lg shadow-sm transition-colors hover:bg-blue-500/10 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 cursor-pointer text-foreground flex items-center justify-between"
         aria-label="날짜 선택"
       >
         <span>{format(selectedDate, "yyyy년 M월 d일", { locale: ko })}</span>
-        <CalendarIcon size={16} className="text-gray-400" />
+        <CalendarIcon size={16} className="text-muted-foreground" />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 left-0 z-[9999] w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
-          <div className="flex items-center justify-between">
+        <div className="absolute top-full mt-2 left-0 z-[9999] w-72 rounded-lg border border-border bg-card p-4 shadow-xl">
+          <div className="flex items-center justify-between text-foreground">
             <button
               type="button"
               onClick={() => setVisibleMonth((current) => subMonths(current, 1))}
-              className="inline-flex size-8 items-center justify-center rounded-md text-gray-500 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+              className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition hover:bg-blue-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
               aria-label="이전 달"
             >
               <ChevronLeft className="size-4" />
             </button>
-            <div className="text-sm font-semibold text-gray-800">
+            <div className="text-sm font-semibold">
               {format(visibleMonth, "yyyy년 M월", { locale: ko })}
             </div>
             <button
               type="button"
               onClick={() => setVisibleMonth((current) => addMonths(current, 1))}
-              className="inline-flex size-8 items-center justify-center rounded-md text-gray-500 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+              className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition hover:bg-blue-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
               aria-label="다음 달"
             >
               <ChevronRight className="size-4" />
             </button>
           </div>
 
-          <div className="mt-3 grid grid-cols-7 text-center text-xs font-medium text-gray-500">
+          <div className="mt-3 grid grid-cols-7 text-center text-xs font-medium text-muted-foreground">
             {["일", "월", "화", "수", "목", "금", "토"].map((label) => (
               <div key={label} className="py-1">
                 {label}
@@ -131,11 +131,11 @@ export function DatePicker({
                   onClick={() => handleDayClick(date)}
                   className={[
                     "flex h-10 w-10 items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50",
-                    inMonth ? "text-gray-800" : "text-gray-400",
+                    inMonth ? "text-foreground" : "text-muted-foreground",
                     isSelected
                       ? "bg-blue-500 text-white hover:bg-blue-500"
-                      : "hover:bg-gray-100",
-                    isToday && !isSelected ? "border border-blue-400" : "border border-transparent",
+                      : "hover:bg-blue-500/20",
+                    isToday && !isSelected ? "border border-blue-400/60" : "border border-transparent",
                   ].join(" ")}
                 >
                   {format(date, "d")}
@@ -144,7 +144,7 @@ export function DatePicker({
             })}
           </div>
 
-          <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
+          <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
             <span>오늘: {format(new Date(), "yyyy.MM.dd", { locale: ko })}</span>
             <button
               type="button"
@@ -152,7 +152,7 @@ export function DatePicker({
                 const today = new Date();
                 handleDayClick(today);
               }}
-              className="rounded-md px-2 py-1 font-medium text-blue-600 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+              className="rounded-md px-2 py-1 font-medium text-blue-500 hover:bg-blue-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
             >
               오늘로 이동
             </button>

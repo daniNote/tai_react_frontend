@@ -35,6 +35,8 @@ export function FilterBar({
 }: FilterBarProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const hours = Array.from({ length: 24 }, (_, i) => i);
+  const selectBaseClass =
+    "w-full text-sm sm:text-base appearance-none px-4 pr-10 py-3 bg-card border border-border rounded-lg shadow-sm transition-colors hover:border-primary/60 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-foreground";
 
   const handleDateChange = (
     newYear: number,
@@ -46,7 +48,7 @@ export function FilterBar({
     onDayChange(newDay);
   };
   return (
-    <div className="mb-8">
+    <div className="mb-4">
       {/* 모든 필터를 1줄에 배치 */}
       <div className="flex gap-2 sm:gap-3 flex-wrap items-stretch">
         {/* Date Picker */}
@@ -64,7 +66,7 @@ export function FilterBar({
           <select
             value={timeFilter}
             onChange={(e) => onTimeFilterChange(e.target.value)}
-            className="w-full text-sm sm:text-base appearance-none px-4 pr-10 py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-gray-700 transition-colors"
+            className={`${selectBaseClass} dark:bg-muted dark:text-foreground dark:border-border`}
             aria-label="시간 선택"
           >
             {hours.map((h) => (
@@ -74,7 +76,7 @@ export function FilterBar({
             ))}
           </select>
           <ChevronDown
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground pointer-events-none"
             size={16}
           />
         </div>
@@ -84,7 +86,7 @@ export function FilterBar({
           <select
             value={categoryFilter}
             onChange={(e) => onCategoryFilterChange(e.target.value)}
-            className="w-full text-sm sm:text-base appearance-none px-4 pr-10 py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 cursor-pointer text-gray-700 transition-colors"
+            className={`${selectBaseClass} dark:bg-muted dark:text-foreground dark:border-border`}
           >
             <option value="all">전체 카테고리</option>
             <option value="건강">건강</option>
@@ -106,7 +108,7 @@ export function FilterBar({
             <option value="취업 및 교육">취업 및 교육</option>
           </select>
           <ChevronDown
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground pointer-events-none"
             size={16}
           />
         </div>
@@ -114,8 +116,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={onResetToNow}
-          style={{ backgroundColor: "#4285f4" }}
-          className="flex-shrink-0 px-4 py-3 text-white font-medium rounded-lg shadow-sm hover:opacity-80 active:opacity-50 transition-opacity text-center whitespace-nowrap min-w-[100px]"
+          className="flex-shrink-0 px-4 py-3 text-white font-medium rounded-lg shadow-sm transition-colors text-center whitespace-nowrap min-w-[100px] bg-blue-600 hover:bg-blue-500 active:bg-blue-700"
         >
           현재시간
         </button>
