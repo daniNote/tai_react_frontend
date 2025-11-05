@@ -48,7 +48,7 @@ export function FilterBar({
     onDayChange(newDay);
   };
   return (
-    <div className="mb-8">
+    <div className="mb-4">
       {/* 모든 필터를 1줄에 배치 */}
       <div className="flex gap-2 sm:gap-3 flex-wrap items-stretch">
         {/* Date Picker */}

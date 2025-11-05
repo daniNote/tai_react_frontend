@@ -259,30 +259,35 @@ export function TrendingList() {
     <div className="min-h-screen bg-background transition-colors duration-300">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <SearchHeader />
-        <FilterBar
-          timeFilter={timeFilter}
-          categoryFilter={categoryFilter}
-          sortFilter={sortFilter}
-          onTimeFilterChange={setTimeFilter}
-          onCategoryFilterChange={setCategoryFilter}
-          onSortFilterChange={setSortFilter}
-          year={year}
-          month={month}
-          day={day}
-          onYearChange={setYear}
-          onMonthChange={setMonth}
-          onDayChange={setDay}
-          onResetToNow={() => {
-            const n = new Date();
-            setYear(n.getFullYear());
-            setMonth(n.getMonth() + 1);
-            setDay(n.getDate());
-            setTimeFilter(String(n.getHours()).padStart(2, "0"));
-          }}
-        />
-        <div className="mb-6">
+        <div className="pt-4 pb-[0.01%] sticky top-0 z-40 -mx-4 px-4 bg-background shadow-lg">
+          <FilterBar
+            timeFilter={timeFilter}
+            categoryFilter={categoryFilter}
+            sortFilter={sortFilter}
+            onTimeFilterChange={setTimeFilter}
+            onCategoryFilterChange={setCategoryFilter}
+            onSortFilterChange={setSortFilter}
+            year={year}
+            month={month}
+            day={day}
+            onYearChange={setYear}
+            onMonthChange={setMonth}
+            onDayChange={setDay}
+            onResetToNow={() => {
+              const n = new Date();
+              setYear(n.getFullYear());
+              setMonth(n.getMonth() + 1);
+              setDay(n.getDate());
+              setTimeFilter(String(n.getHours()).padStart(2, "0"));
+            }}
+          />
+        </div>
+        <div className="my-4">
           <p className="text-muted-foreground">
-            {format(getTargetDate(), "yyyy년 M월 d일 (E) a h시", { locale: ko })} 기준
+            {format(getTargetDate(), "yyyy년 M월 d일 (E) a h시", {
+              locale: ko,
+            })}{" "}
+            기준
           </p>
           <p className="text-muted-foreground">
             {initialDisplayItems.length}개의 급상승 검색어
@@ -319,11 +324,11 @@ export function TrendingList() {
                     <div key={section.id} className="space-y-4">
                       {index > 0 && (
                         <div className="flex items-center gap-4 py-6">
-                          <div className="flex-1 border-t border-primary/40 dark:border-primary/60" />
-                          <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary dark:border-primary/50 dark:bg-primary/15">
+                          <div className="flex-1 border-t-2 border-primary/50 dark:border-primary/70" />
+                          <span className="rounded-full border-2 border-primary/50 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary dark:border-primary/60 dark:bg-primary/15">
                             {boundaryLabel}
                           </span>
-                          <div className="flex-1 border-t border-primary/40 dark:border-primary/60" />
+                          <div className="flex-1 border-t-2 border-primary/50 dark:border-primary/70" />
                         </div>
                       )}
 
