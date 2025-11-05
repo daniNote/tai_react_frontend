@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axiosConfig";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface LLMResult {
   keyword: string;
@@ -80,10 +81,10 @@ export function TrendingDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-2 text-gray-600">로딩 중...</p>
+          <p className="mt-2 text-muted-foreground">로딩 중...</p>
         </div>
       </div>
     );
@@ -91,7 +92,7 @@ export function TrendingDetail() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center transition-colors duration-300">
         <div className="text-center text-red-500">
           {error || "데이터를 불러올 수 없습니다."}
         </div>
@@ -128,50 +129,54 @@ export function TrendingDetail() {
   const maxValue = Math.max(...chartData.map((d) => d.value));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <button
-          onClick={handleBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-        >
-          <ArrowLeft size={20} />
-          <span>목록으로 돌아가기</span>
-        </button>
+        <div className="mb-6 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <button
+            onClick={handleBack}
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft size={20} />
+            <span>목록으로 돌아가기</span>
+          </button>
+          <ThemeToggle />
+        </div>
 
         {/* Main Card */}
-        <div className="bg-white border border-gray-200 rounded-xl p-8 mb-6">
+        <div className="bg-card border border-border rounded-xl p-8 mb-6 shadow-sm transition-colors">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+                <span className="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300 rounded-full text-sm">
                   #{data.rank}
                 </span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                <span className="px-3 py-1 bg-accent text-accent-foreground rounded-full text-sm">
                   {data.llmResult.category}
                 </span>
               </div>
-              <h1 className="text-blue-600 mb-4">{data.llmResult.keyword}</h1>
+              <h1 className="text-blue-600 dark:text-blue-300 mb-4">
+                {data.llmResult.keyword}
+              </h1>
             </div>
 
             <div className="flex gap-2">
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <Share2 size={20} className="text-gray-600" />
+              <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+                <Share2 size={20} className="text-muted-foreground" />
               </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <Bookmark size={20} className="text-gray-600" />
+              <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+                <Bookmark size={20} className="text-muted-foreground" />
               </button>
             </div>
           </div>
 
           <div className="flex gap-6 mb-6">
-            <div className="flex-1 p-4 bg-gray-50 rounded-lg">
-              <p className="text-gray-600 text-sm mb-1">검색량</p>
-              <p className="text-gray-900">{data.approx_traffic || "N/A"}</p>
+            <div className="flex-1 p-4 bg-muted rounded-lg transition-colors">
+              <p className="text-muted-foreground text-sm mb-1">검색량</p>
+              <p className="text-foreground">{data.approx_traffic || "N/A"}</p>
             </div>
-            <div className="flex-1 p-4 bg-gray-50 rounded-lg">
-              <p className="text-gray-600 text-sm mb-1">데이터 시간</p>
-              <p className="text-gray-900 text-sm">
+            <div className="flex-1 p-4 bg-muted rounded-lg transition-colors">
+              <p className="text-muted-foreground text-sm mb-1">데이터 시간</p>
+              <p className="text-foreground text-sm">
                 {formatDate(data.createdAt)}
               </p>
             </div>
@@ -179,16 +184,16 @@ export function TrendingDetail() {
 
           {/* AI Summary Card */}
           <div className="flex iteddms-center gap-3 mb-4">
-            <h2 className="text-purple-900">AI 한줄 요약</h2>
+            <h2 className="text-purple-700 dark:text-purple-300">AI 한줄 요약</h2>
           </div>
-          <p className="text-gray-700">
+          <p className="text-foreground/80">
             {data.llmResult.description || "상세 설명이 없습니다."}
           </p>
           <br></br>
           <div className="flex iteddms-center gap-3 mb-4">
-            <h2 className="text-purple-900">AI 원문 요약</h2>
+            <h2 className="text-purple-700 dark:text-purple-300">AI 원문 요약</h2>
           </div>
-          <p className="text-gray-800 leading-relaxed">{aiSummary.summary}</p>
+          <p className="text-foreground leading-relaxed">{aiSummary.summary}</p>
           <br></br>
           <div className="mb-6">
             <h3 className="mb-3">관련 태그</h3>
@@ -196,7 +201,7 @@ export function TrendingDetail() {
               {data.llmResult.tags?.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full"
+                  className="px-4 py-2 bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300 rounded-full"
                 >
                   #{tag}
                 </span>
@@ -226,17 +231,17 @@ export function TrendingDetail() {
         </div>
 
         {/* Related Articles */}
-        <div className="bg-white border border-gray-200 rounded-xl p-8">
+        <div className="bg-card border border-border rounded-xl p-8 shadow-sm transition-colors">
           <h2 className="mb-4">관련 뉴스</h2>
           <div className="space-y-4">
             {relatedArticles.map((article, index) => (
               <div
                 key={index}
-                className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                className="p-4 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer"
                 onClick={() => window.open(`${article.source}`, "_blank")}
               >
                 <h4 className="mb-2">{article.title}</h4>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   {/* 뉴스 URL */}
                   <span className="overflow-hidden">{article.source}</span>
                   {/* 뉴스 시간 */}
