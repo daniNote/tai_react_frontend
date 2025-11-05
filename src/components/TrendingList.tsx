@@ -319,11 +319,11 @@ export function TrendingList() {
                     <div key={section.id} className="space-y-4">
                       {index > 0 && (
                         <div className="flex items-center gap-4 py-6">
-                          <div className="flex-1 border-t border-dashed border-border" />
-                          <span className="text-sm text-muted-foreground whitespace-nowrap">
+                          <div className="flex-1 border-t border-primary/40 dark:border-primary/60" />
+                          <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary dark:border-primary/50 dark:bg-primary/15">
                             {boundaryLabel}
                           </span>
-                          <div className="flex-1 border-t border-dashed border-border" />
+                          <div className="flex-1 border-t border-primary/40 dark:border-primary/60" />
                         </div>
                       )}
 
