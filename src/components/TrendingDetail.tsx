@@ -33,6 +33,9 @@ export function TrendingDetail() {
   const [data, setData] = useState<TrendingDetailData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // URL에서 쿼리 파라미터 가져오기
+  const queryParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
     const fetchTrendingDetail = async () => {
@@ -56,7 +59,9 @@ export function TrendingDetail() {
   }, [id]);
 
   const handleBack = () => {
-    navigate(-1);
+    // 쿼리 파라미터를 유지하면서 목록으로 돌아가기
+    const queryString = queryParams.toString();
+    navigate(queryString ? `/?${queryString}` : '/');
   };
 
   // 날짜 포맷 함수
@@ -143,7 +148,7 @@ export function TrendingDetail() {
                   #{data.rank}
                 </span>
                 <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
-                  {data.category}
+                  {data.llmResult.category}
                 </span>
               </div>
               <h1 className="text-blue-600 mb-4">{data.llmResult.keyword}</h1>

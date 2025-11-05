@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SearchHeader } from "./SearchHeader";
 import { FilterBar } from "./FilterBar";
 import { TrendingItem } from "./TrendingItem";
@@ -21,25 +21,61 @@ interface TrendingData {
 
 export function TrendingList() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleItemClick = (id: number) => {
-    navigate(`/trend/${id}`);
-  };
   const now = new Date();
-  const [year, setYear] = useState<number>(now.getFullYear());
-  const [month, setMonth] = useState<number>(now.getMonth() + 1); // 1-12
-  const [day, setDay] = useState<number>(now.getDate());
-  const [timeFilter, setTimeFilter] = useState(String(now.getHours()).padStart(2, "0"));
-  const [categoryFilter, setCategoryFilter] = useState("all");
-  const [sortFilter, setSortFilter] = useState("rank");
+  
+  // URL 쿼리 파라미터에서 초기값 가져오기
+  const [year, setYear] = useState<number>(
+    parseInt(searchParams.get("year") || "") || now.getFullYear()
+  );
+  const [month, setMonth] = useState<number>(
+    parseInt(searchParams.get("month") || "") || now.getMonth() + 1
+  );
+  const [day, setDay] = useState<number>(
+    parseInt(searchParams.get("day") || "") || now.getDate()
+  );
+  const [timeFilter, setTimeFilter] = useState(
+    searchParams.get("time") || String(now.getHours()).padStart(2, "0")
+  );
+  const [categoryFilter, setCategoryFilter] = useState(
+    searchParams.get("category") || "all"
+  );
+  const [sortFilter, setSortFilter] = useState(
+    searchParams.get("sort") || "rank"
+  );
   const [trends, setTrends] = useState<TrendingData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // 필터 상태가 변경될 때마다 URL 업데이트
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("year", String(year));
+    params.set("month", String(month));
+    params.set("day", String(day));
+    params.set("time", timeFilter);
+    params.set("category", categoryFilter);
+    params.set("sort", sortFilter);
+    setSearchParams(params, { replace: true });
+  }, [year, month, day, timeFilter, categoryFilter, sortFilter, setSearchParams]);
 
   // 선택한 연/월/일과 시간 필터로 타겟 시각 구성
   const getTargetDate = (): Date => {
     const selectedHour = parseInt(timeFilter, 10) || 0;
     return new Date(year, month - 1, day, selectedHour, 0, 0);
+  };
+
+  const handleItemClick = (id: number) => {
+    // 현재 필터 상태를 쿼리 파라미터로 전달
+    const params = new URLSearchParams();
+    params.set("year", String(year));
+    params.set("month", String(month));
+    params.set("day", String(day));
+    params.set("time", timeFilter);
+    params.set("category", categoryFilter);
+    params.set("sort", sortFilter);
+    navigate(`/trend/${id}?${params.toString()}`);
   };
 
   useEffect(() => {

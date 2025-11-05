@@ -70,8 +70,7 @@ export function FilterBar({
           <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
         {/* Category */}
-        {!isDatePickerOpen && (
-        <div className="relative flex-[1.5] min-w-[150px]">
+        <div className={`relative flex-[1.5] min-w-[150px] ${isDatePickerOpen ? 'max-sm:hidden' : ''}`}>
           <select
             value={categoryFilter}
             onChange={(e) => onCategoryFilterChange(e.target.value)}
@@ -98,7 +97,6 @@ export function FilterBar({
           </select>
           <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
-        )}
         {/* Reset Button */}
         <button
           type="button"
