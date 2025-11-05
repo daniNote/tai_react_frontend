@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { DatePicker } from './DatePicker';
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { DatePicker } from "./DatePicker";
 
 interface FilterBarProps {
   timeFilter: string;
@@ -11,7 +11,7 @@ interface FilterBarProps {
   onSortFilterChange: (value: string) => void;
   year: number;
   month: number; // 1-12
-  day: number;   // 1-31
+  day: number; // 1-31
   onYearChange: (value: number) => void;
   onMonthChange: (value: number) => void;
   onDayChange: (value: number) => void;
@@ -36,7 +36,11 @@ export function FilterBar({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  const handleDateChange = (newYear: number, newMonth: number, newDay: number) => {
+  const handleDateChange = (
+    newYear: number,
+    newMonth: number,
+    newDay: number
+  ) => {
     onYearChange(newYear);
     onMonthChange(newMonth);
     onDayChange(newDay);
@@ -64,13 +68,19 @@ export function FilterBar({
             aria-label="시간 선택"
           >
             {hours.map((h) => (
-              <option key={h} value={String(h).padStart(2, '0')}>{String(h).padStart(2, '0')}시</option>
+              <option key={h} value={String(h).padStart(2, "0")}>
+                {String(h).padStart(2, "0")}시
+              </option>
             ))}
           </select>
-          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
+          <ChevronDown
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+            size={16}
+          />
         </div>
         {/* Category */}
-        <div className={`relative flex-[1.5] min-w-[150px] ${isDatePickerOpen ? 'max-sm:hidden' : ''}`}>
+
+        <div className="relative flex-[1.5] min-w-[150px]">
           <select
             value={categoryFilter}
             onChange={(e) => onCategoryFilterChange(e.target.value)}
@@ -95,13 +105,16 @@ export function FilterBar({
             <option value="정치">정치</option>
             <option value="취업 및 교육">취업 및 교육</option>
           </select>
-          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
+          <ChevronDown
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+            size={16}
+          />
         </div>
         {/* Reset Button */}
         <button
           type="button"
           onClick={onResetToNow}
-          style={{ backgroundColor: '#4285f4' }}
+          style={{ backgroundColor: "#4285f4" }}
           className="flex-shrink-0 px-4 py-3 text-white font-medium rounded-lg shadow-sm hover:opacity-80 active:opacity-50 transition-opacity text-center whitespace-nowrap min-w-[100px]"
         >
           현재시간
@@ -110,4 +123,3 @@ export function FilterBar({
     </div>
   );
 }
-

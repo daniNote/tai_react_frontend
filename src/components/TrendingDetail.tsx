@@ -179,7 +179,7 @@ export function TrendingDetail() {
 
           {/* AI Summary Card */}
           <div className="flex iteddms-center gap-3 mb-4">
-              <h2 className="text-purple-900">AI 한줄 요약</h2>
+            <h2 className="text-purple-900">AI 한줄 요약</h2>
           </div>
           <p className="text-gray-700">
             {data.llmResult.description || "상세 설명이 없습니다."}
@@ -188,9 +188,7 @@ export function TrendingDetail() {
           <div className="flex iteddms-center gap-3 mb-4">
             <h2 className="text-purple-900">AI 원문 요약</h2>
           </div>
-          <p className="text-gray-800 leading-relaxed">
-            {aiSummary.summary}
-          </p>
+          <p className="text-gray-800 leading-relaxed">{aiSummary.summary}</p>
           <br></br>
           <div className="mb-6">
             <h3 className="mb-3">관련 태그</h3>
@@ -240,7 +238,7 @@ export function TrendingDetail() {
                 <h4 className="mb-2">{article.title}</h4>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   {/* 뉴스 URL */}
-                  {/* <span>{article.source}</span> */}
+                  <span className="overflow-hidden">{article.source}</span>
                   {/* 뉴스 시간 */}
                   {/* <span>{article.time}</span> */}
                 </div>
